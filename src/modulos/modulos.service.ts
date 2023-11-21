@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ModulosDto } from './dtos/modulos.dto';
 import { ModulosDocument } from './schemas/modulos.schema';
+import { UpdateModulosDto } from './dtos/updatemodulos.dto';
 
 @Injectable()
 export class ModulosService {
@@ -22,7 +23,7 @@ export class ModulosService {
     }
   }
 
-  async editarModulo(moduloId: string, dto: ModulosDto) {
+  async editarModulo(moduloId: string, dto: UpdateModulosDto) {
     try {
       this.logger.debug('editarModulo - started');
       const moduloExistente = await this.modulosModel.findById(moduloId).exec();
@@ -42,29 +43,30 @@ export class ModulosService {
 
   async excluirModulo(moduloId: string) {
     try {
-      this.logger.debug('excluirModulo - started');
+        this.logger.debug('excluirModulo - started');
 
-      const moduloExistente = await this.modulosModel.findById(moduloId).exec();
+        const moduloExistente = await this.modulosModel.findById(moduloId).exec();
 
-      if (!moduloExistente) {
-        throw new NotFoundException(`Módulo com ID ${moduloId} não encontrado`);
-      }
+        if (!moduloExistente) {
+            throw new NotFoundException(`Módulo com ID ${moduloId} não encontrado`);
+        }
 
-      // Verificar se há aulas associadas ao módulo
-      if (moduloExistente.aulas && moduloExistente.aulas.length > 0) {
-        throw new Error('Não é possível excluir o módulo pois existem aulas associadas.');
-      }
+        // Verificar se há aulas associadas ao módulo
+        if (moduloExistente.aulas && moduloExistente.aulas.length > 0) {
+            throw new Error('Não é possível excluir o módulo pois existem aulas associadas.');
+        }
 
-      const resultado = await this.modulosModel.findByIdAndRemove(moduloId).exec();
+        const resultado = await this.modulosModel.findByIdAndDelete(moduloId).exec();
 
-      if (!resultado) {
-        throw new NotFoundException(`Módulo com ID ${moduloId} não encontrado`);
-      }
 
-      this.logger.debug('excluirModulo - deleted successfully');
+        if (!resultado) {
+            throw new NotFoundException(`Módulo com ID ${moduloId} não encontrado`);
+        }
+
+        this.logger.debug('excluirModulo - deleted successfully');
     } catch (error) {
-      this.logger.error(`Erro ao excluir do banco de dados: ${error.message}`);
-      throw error;
+        this.logger.error(`Erro ao excluir do banco de dados: ${error.message}`);
+        throw error;
     }
   }
 }
