@@ -69,4 +69,18 @@ export class ModulosService {
         throw error;
     }
   }
+
+  async listarTodosModulos(): Promise<ModulosDocument[]> {
+    try {
+      this.logger.debug('listarTodasAulas - started');
+
+      const todosModulos = await this.modulosModel.find().exec();
+
+      this.logger.debug('listarTodasAulas - retrieved successfully');
+      return todosModulos;
+    } catch (error) {
+      this.logger.error(`Error retrieving Aulas: ${error.message}`);
+      throw error;
+    }
+  }
 }

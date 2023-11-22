@@ -1,5 +1,4 @@
 // aula.schema.ts
-
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document, Schema as MongooseSchema } from "mongoose";
 import { Modulos } from "src/modulos/schemas/modulos.schema";
@@ -22,3 +21,4 @@ export class Aula {
 }
 
 export const AulaSchema = SchemaFactory.createForClass(Aula);
+

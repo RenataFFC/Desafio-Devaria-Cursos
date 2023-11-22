@@ -1,8 +1,8 @@
 // aula.controller.ts
 
-import { Controller, HttpCode, HttpStatus, Post, Body } from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post, Body, Param, ParseUUIDPipe, Put, Delete, Get } from '@nestjs/common';
 import { IsPublic } from 'src/auth/decorators/ispublic.decorator';
-import { AulaDto } from './dtos/aula.dto'; // Certifique-se de que você tenha um DTO AulaDto
+import { AulaDto } from './dtos/aula.dto';
 import { AulaService } from './aula.service';
 
 @Controller('aula')
@@ -12,7 +12,25 @@ export class AulaController {
   @Post()
   @HttpCode(HttpStatus.OK)
   @IsPublic()
-  register(@Body() dto: AulaDto) {
-    return this.aulaService.aula(dto);
+  async criarAula(@Body() dto: AulaDto) {
+    return this.aulaService.criarAula(dto);
+  }
+
+  @Put(':id/editar')
+  @HttpCode(HttpStatus.OK)
+  async editarAula(@Param('id', new ParseUUIDPipe()) id: string, @Body() dto: AulaDto) {
+    return this.aulaService.editarAula(id, dto);
+  }
+
+  @Delete(':id/excluir')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async excluirAula(@Param('id', new ParseUUIDPipe()) id: string) {
+    await this.aulaService.excluirAula(id);
+  }
+
+  @Get('listar')
+  @HttpCode(HttpStatus.OK)
+  async listarTodasAulas() {
+    return this.aulaService.listarTodasAulas();
   }
 }
