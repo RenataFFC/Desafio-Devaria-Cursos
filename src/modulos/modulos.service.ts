@@ -22,6 +22,7 @@ export class ModulosService {
       throw error;
     }
   }
+  
 
   async editarModulo(moduloId: string, dto: UpdateModulosDto) {
     try {

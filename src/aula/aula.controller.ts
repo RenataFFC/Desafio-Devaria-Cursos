@@ -16,9 +16,11 @@ export class AulaController {
     return this.aulaService.criarAula(dto);
   }
 
-  @Put(':id/editar')
+  @Put('/editar:id')
   @HttpCode(HttpStatus.OK)
   async editarAula(@Param('id', new ParseUUIDPipe()) id: string, @Body() dto: AulaDto) {
+    console.log('ID recebido no controlador:', id);
+  
     return this.aulaService.editarAula(id, dto);
   }
 

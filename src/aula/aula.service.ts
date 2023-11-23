@@ -1,13 +1,14 @@
-// aula.service.ts
-
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { AulaDto } from './dtos/aula.dto';
-import { AulaDocument } from './schemas/aula.schema';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common'; 
+import {InjectModel} from '@nestjs/mongoose'; 
+import {Model} from 'mongoose'; 
+import { AulaDto } from './dtos/aula.dto'; 
+import { AulaDocument } from './schemas/aula.schema'; 
 
 @Injectable()
 export class AulaService {
+  updateAula(aulaId: string, dto: AulaDto) {
+    throw new Error('Method not implemented.');
+  }
   private logger = new Logger(AulaService.name);
 
   constructor(@InjectModel('Aula') private readonly aulaModel: Model<AulaDocument>) {}
@@ -27,12 +28,13 @@ export class AulaService {
 
       return aulaSalva;
     } catch (error) {
-      this.logger.error(`Error saving to database: ${error.message}`);
+      this.logger.error(`Error creating Aula: ${error.message}`);
       throw error;
     }
   }
-
+ 
   async editarAula(id: string, dto: AulaDto): Promise<AulaDocument> {
+    console.log('ID recebido no serviço:', id);
     try {
       this.logger.debug(`editarAula - started for ID: ${id}`);
 

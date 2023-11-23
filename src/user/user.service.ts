@@ -41,7 +41,6 @@ export class UserService{
          return await this.userModel.findById(id);
        }
 
-
        async updateUser(id: string, dto: UpdateUserDto){
           return await this.userModel.findByIdAndUpdate(id,dto);
        }
