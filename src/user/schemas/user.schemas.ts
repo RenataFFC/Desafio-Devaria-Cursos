@@ -13,6 +13,12 @@ export class User {
 
   @Prop({require:true})
   password: string;
+
+  @Prop({require:true})
+  isAdmin:boolean;
+
+  @Prop({require:true})
+  current_token: string;
  
 }
 

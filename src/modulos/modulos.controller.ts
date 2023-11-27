@@ -14,7 +14,7 @@ export class ModulosController {
   register(@Body() dto: ModulosDto) {
     return this.modulosService.modulos(dto);
   }
-  @Put(':id') // Rota para editar um módulo
+  @Put(':id') 
   async update(@Param('id') moduloId: string, @Body() dto: UpdateModulosDto) {
     return this.modulosService.editarModulo(moduloId, dto);
   }

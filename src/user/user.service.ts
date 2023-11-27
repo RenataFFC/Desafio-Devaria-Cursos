@@ -37,12 +37,23 @@ export class UserService{
          }
          return null;
       }
+       
+
        async getUserById(id:string){
+        console.log("meu id =",  id)
          return await this.userModel.findById(id);
+         
        }
+       
+
+      // async getUserByToken(token:string){
+       // return await this.userModel.findByToken(token);
+     // }
 
        async updateUser(id: string, dto: UpdateUserDto){
           return await this.userModel.findByIdAndUpdate(id,dto);
        }
+
+      
 
 }

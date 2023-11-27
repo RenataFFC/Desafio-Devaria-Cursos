@@ -3,7 +3,7 @@ import { AulaMessagesHelper } from '../helpers/messages.helper';
 
 
 
-export class UpdateAulasDto {
+export class UpdateAulaDto {
   @MinLength(2, {message: AulaMessagesHelper.AULA_NAME_NOT_VALID})
     name_aula:string;  
 

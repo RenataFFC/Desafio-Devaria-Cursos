@@ -8,21 +8,24 @@ import { UpdateModulosDto } from './dtos/updatemodulos.dto';
 @Injectable()
 export class ModulosService {
   private logger = new Logger(ModulosService.name);
-
-  constructor(@InjectModel('Modulos') private readonly modulosModel: Model<ModulosDocument>) {}
+  constructor(@InjectModel('Modulos') 
+        private readonly modulosModel: Model<ModulosDocument>
+ ) {}
 
   async modulos(dto: ModulosDto) {
     try {
       this.logger.debug('modulos - started');
       const novoModulo = new this.modulosModel(dto);
       await novoModulo.save();
-      this.logger.debug('modulos - saved successfully');
+      this.logger.debug('modulos - salvo com sucesso!');
+      
+      return novoModulo;
     } catch (error) {
-      this.logger.error(`Erro ao salvar no banco de dados: ${error.message}`);
+         this.logger.error(`Erro ao salvar no banco de dados: ${error.message}`);
       throw error;
     }
   }
-  
+
 
   async editarModulo(moduloId: string, dto: UpdateModulosDto) {
     try {
