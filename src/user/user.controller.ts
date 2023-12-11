@@ -3,6 +3,7 @@ import { UserService } from 'src/user/user.service';
 import { UpdateUserDto } from './dtos/updateuser.dto';
 
 
+
 @Controller('user')
 export class UserController{
    constructor(private readonly UserService:UserService){}
@@ -25,3 +26,4 @@ export class UserController{
        const {userId} = req?.user;
        await this.UserService.updateUser(userId,dto)
    }}
+  

@@ -7,6 +7,7 @@ import {APP_GUARD} from '@nestjs/core'
 import { JwtAuthGuard } from './auth/guards/jwt.guard';
 import { ModulosModule } from './modulos/modulos.module';
 import { AulaModule } from './aula/aula.module';
+import { UploadModule } from './upload/upload.module';
 
 
 @Module({ 
@@ -16,7 +17,8 @@ import { AulaModule } from './aula/aula.module';
   AuthModule,
   UserModule,
   ModulosModule,
-  AulaModule
+  AulaModule,
+  UploadModule
  ], 
  controllers: [], 
  providers: [{provide: APP_GUARD, useClass:JwtAuthGuard},
