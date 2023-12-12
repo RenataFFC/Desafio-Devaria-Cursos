@@ -16,7 +16,7 @@ export class UploadService {
 
   async salvar(file: any) {
     const uploadParams = {
-      Bucket: process.env.S3_BUCKET_NAME, // Corrigindo para usar o nome do bucket
+      Bucket: process.env.S3_BUCKET_NAME, 
       Key: `${Date.now()}-${file.originalname}`,
       Body: file.buffer,
     
