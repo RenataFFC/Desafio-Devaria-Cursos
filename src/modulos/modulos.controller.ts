@@ -27,6 +27,7 @@ export class ModulosController {
   
   @Get('listar')
   @HttpCode(HttpStatus.OK)
+  @IsPublic()
   async listarTodosModulos() {
     return this.modulosService.listarTodosModulos();
   }
