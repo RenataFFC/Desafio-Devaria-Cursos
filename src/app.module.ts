@@ -10,6 +10,7 @@ import { AulaModule } from './aula/aula.module';
 import { UploadModule } from './upload/upload.module';
 
 
+
 @Module({ 
  imports:[ 
   ConfigModule.forRoot(),  
@@ -18,7 +19,7 @@ import { UploadModule } from './upload/upload.module';
   UserModule,
   ModulosModule,
   AulaModule,
-  UploadModule
+  UploadModule,
  ], 
  controllers: [], 
  providers: [{provide: APP_GUARD, useClass:JwtAuthGuard},

@@ -1,3 +1,4 @@
+// upload.controller.ts
 import { Controller, Post, UseInterceptors, UploadedFile, HttpException, HttpStatus } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadService } from './upload.service';
@@ -14,10 +15,11 @@ export class UploadController {
         throw new HttpException('Arquivo não enviado', HttpStatus.BAD_REQUEST);
       }
 
-      const result = await this.uploadService.salvar(file);
+      const result = await this.uploadService.salvar(file ,'seuFolderAqui');
+
       return {
         success: true,
-        imageUrl: result.imageUrl,
+        fileUrl: result.fileUrl,
       };
     } catch (error) {
       throw new HttpException(`Erro durante o upload: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);

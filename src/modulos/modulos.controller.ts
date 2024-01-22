@@ -1,8 +1,9 @@
-import { Controller, HttpCode, HttpStatus, Post, Body, Param, Put, Delete, Request, Get} from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post, Body, Param, Put, Delete, Get, UseInterceptors, UploadedFiles} from '@nestjs/common';
 import { IsPublic } from 'src/auth/decorators/ispublic.decorator';
 import { ModulosDto } from './dtos/modulos.dto';
 import { ModulosService } from './modulos.service'; 
 import { UpdateModulosDto } from './dtos/updatemodulos.dto';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('modulos')
 export class ModulosController {
@@ -11,9 +12,14 @@ export class ModulosController {
   @Post()
   @HttpCode(HttpStatus.OK)
   @IsPublic()
-  register(@Body() dto: ModulosDto) {
-    return this.modulosService.modulos(dto);
+  @UseInterceptors(FilesInterceptor('files', 2, { dest: 'uploads' }))
+  register(@Body() dto: ModulosDto, @UploadedFiles() files) {
+    return this.modulosService.criarModulo(dto, files[0], files[1]);
+    console.log('Título recebido no backend:', dto.titulo);
   }
+
+  
+  
   @Put(':id') 
   async update(@Param('id') moduloId: string, @Body() dto: UpdateModulosDto) {
     return this.modulosService.editarModulo(moduloId, dto);
@@ -23,7 +29,6 @@ export class ModulosController {
   async remove(@Param('id') moduloId: string) {
     return this.modulosService.excluirModulo(moduloId);
   }
-
   
   @Get('listar')
   @HttpCode(HttpStatus.OK)
