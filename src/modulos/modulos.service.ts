@@ -25,6 +25,9 @@ export class ModulosService {
       const { fileUrl: image_url } = await this.uploadService.salvar(imageFile, 'images');
       const { fileUrl: video_url } = await this.uploadService.salvar(videoFile, 'videos');
 
+      console.log('image:', image_url);
+      console.log('video:', video_url);
+
       dto.image_modulo = image_url;
       dto.video_modulo = video_url;
 

@@ -18,17 +18,21 @@ export class UploadService {
     const uploadParams = {
       Bucket: process.env.S3_BUCKET_NAME,
       Key: `${folder}/${Date.now()}-${file.originalname}`,
-      Body: file.buffer,
+      //Body:'image/png',
     };
 
     const uploadAsync = promisify(this.s3.upload.bind(this.s3));
 
     try {
       const data = await uploadAsync(uploadParams);
+      console.log(data)
       return { fileUrl: data.Location };
     } catch (error) {
-      console.error('Erro durante o upload:', error);
+      console.error('Erro durante o upload:', error.message);
       throw error;
-    }
-  }
+
+    }
+   
+  }
+
 }

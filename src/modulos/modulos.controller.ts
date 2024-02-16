@@ -15,8 +15,7 @@ export class ModulosController {
   @UseInterceptors(FilesInterceptor('files', 2, { dest: 'uploads' }))
   register(@Body() dto: ModulosDto, @UploadedFiles() files) {
     return this.modulosService.criarModulo(dto, files[0], files[1]);
-    console.log('Título recebido no backend:', dto.titulo);
-  }
+    console.log('Título recebido no backend:', dto.titulo);  }
 
   
   
