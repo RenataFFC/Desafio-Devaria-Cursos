@@ -80,7 +80,24 @@ export class ModulosService {
       throw error;
     }
   }
-  async listarTodosModulos(): Promise<ModulosDocument[]> {
+  async listarTodosModulos(): Promise<Modulos[]> {
+    const modulos = await this.modulosModel.find().exec();
+    // Para cada módulo, obtenha a URL da imagem e adicione-a aos dados do módulo
+    const modulosComImagens = await Promise.all(
+      modulos.map(async (modulo) => {
+        // Obtenha a URL da imagem para este módulo
+        const urlImagem = await this.uploadService.obterUrl(modulo.image_modulo);
+        // Adicione a URL da imagem aos dados do módulo
+        return { ...modulo.toObject(), url_imagem: urlImagem };
+      })
+    );
+    return modulosComImagens;
+  }
+}
+
+
+
+  /*async listarTodosModulos(): Promise<ModulosDocument[]> {
     try {
       this.logger.debug('listarTodosModulos - iniciado');
 
@@ -92,5 +109,5 @@ export class ModulosService {
       this.logger.error(`Erro ao recuperar módulos: ${error.message}`);
       throw error;
     }
-  }
-}
+  }*/
+
