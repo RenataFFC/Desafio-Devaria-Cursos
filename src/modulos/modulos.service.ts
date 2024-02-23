@@ -16,23 +16,11 @@ export class ModulosService {
     private readonly uploadService: UploadService,
   ) {}
 
-  async criarModulo(dto: ModulosDto, imageFile: any, videoFile: any) {
+  async criarModulo(dto: ModulosDto) {
     try {
       this.logger.debug('criarModulo - iniciado');
-
-      console.log('Título recebido no criarModulo:', dto.titulo);
-
-      const { fileUrl: image_url } = await this.uploadService.salvar(imageFile, 'images');
-      const { fileUrl: video_url } = await this.uploadService.salvar(videoFile, 'videos');
-
-      console.log('image:', image_url);
-      console.log('video:', video_url);
-
-      dto.image_modulo = image_url;
-      dto.video_modulo = video_url;
-
-      console.log('DTO recebido no criarModulo: teste', dto); 
-
+      console.log('Título recebido no criarModulo:', dto.titulo);       
+      // Criando um novo módulo com as informações atualizadas
       const novoModulo = new this.modulosModel(dto);
       await novoModulo.save();
 
@@ -43,6 +31,7 @@ export class ModulosService {
       throw error;
     }
   }
+  
   async editarModulo(moduloId: string, dto: UpdateModulosDto) {
     try {
       this.logger.debug('editarModulo - iniciado');

@@ -12,12 +12,12 @@ export class ModulosController {
   @Post()
   @HttpCode(HttpStatus.OK)
   @IsPublic()
-  @UseInterceptors(FilesInterceptor('files', 2, { dest: 'uploads' }))
-  register(@Body() dto: ModulosDto, @UploadedFiles() files) {
-    return this.modulosService.criarModulo(dto, files[0], files[1]);
-    console.log('Título recebido no backend:', dto.titulo);  }
+  register(@Body() dto: ModulosDto ) {
+    console.log(dto)
+    return this.modulosService.criarModulo(dto);
+    }
 
-  
+
   
   @Put(':id') 
   async update(@Param('id') moduloId: string, @Body() dto: UpdateModulosDto) {

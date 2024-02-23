@@ -19,12 +19,12 @@ export class AulaService {
   async criarAula(dto: AulaDto): Promise<AulaDocument> {
     try {
       this.logger.debug('criarAula - started');
-      const uploadResult = await this.uploadService.salvar(dto.video, 'video');
+     // const uploadResult = await this.uploadService.salvar(dto.video, 'video');
 
       const novaAula = new this.aulaModel({
         name_aula: dto.name_aula,
         descricao_aula: dto.descricao_aula,
-        url_video: uploadResult.fileUrl,
+      //  url_video: uploadResult.fileUrl,
       });
 
       const aulaSalva = await novaAula.save();

@@ -15,11 +15,11 @@ export class UploadController {
         throw new HttpException('Arquivo não enviado', HttpStatus.BAD_REQUEST);
       }
 
-      const result = await this.uploadService.salvar(file ,'seuFolderAqui');
+      const result = await this.uploadService.salvar(file);
 
       return {
         success: true,
-        fileUrl: result.fileUrl,
+        fileUrl: result
       };
     } catch (error) {
       throw new HttpException(`Erro durante o upload: ${error.message}`, HttpStatus.INTERNAL_SERVER_ERROR);

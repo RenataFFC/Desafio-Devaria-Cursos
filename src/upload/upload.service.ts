@@ -1,7 +1,5 @@
-// upload.service.ts
 import { Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
-import { promisify } from 'util';
 
 @Injectable()
 export class UploadService {
@@ -14,25 +12,26 @@ export class UploadService {
       region: process.env.AWS_REGION,
     });
   }
-  async salvar(file: Express.Multer.File, folder: string) {
+
+  async salvar(file: any):Promise<String>{
     const uploadParams = {
       Bucket: process.env.S3_BUCKET_NAME,
-      Key: `${folder}/${Date.now()}-${file.originalname}`,
-      //Body:'image/png',
+      Key: Date.now().toString() + '-' + file.originalname,
+      Body: file.buffer,
+      ACL: 'public-read',      
     };
+    console.log(file)
 
-    const uploadAsync = promisify(this.s3.upload.bind(this.s3));
+    console.log('uploadParams', uploadParams)
 
-    try {
-      const data = await uploadAsync(uploadParams);
-      console.log(data)
-      return { fileUrl: data.Location };
-    } catch (error) {
-      console.error('Erro durante o upload:', error.message);
-      throw error;
-
-    }
-   
-  }
-
+    return new Promise((resolve, reject) => {
+      this.s3.upload(uploadParams, (error, data) => {
+        if (error) {
+          reject(error);
+        }
+        console.log(data)
+        resolve(data.Location);
+      });
+    });
+  }
 }
