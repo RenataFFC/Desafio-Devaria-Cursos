@@ -6,9 +6,9 @@ import { AulaDocument } from './schemas/aula.schema';
 import { UpdateAulaDto } from './dtos/updateaula.dto';
 import { UploadService } from './../upload/upload.service';
 
-
 @Injectable()
 export class AulaService {
+
   private logger = new Logger(AulaService.name);
 
   constructor(
@@ -16,23 +16,18 @@ export class AulaService {
     private readonly uploadService: UploadService,
   ) {}
 
-  async criarAula(dto: AulaDto): Promise<AulaDocument> {
+  async criarAula(dto: AulaDto){
     try {
       this.logger.debug('criarAula - started');
-     // const uploadResult = await this.uploadService.salvar(dto.video, 'video');
+      console.log('Título recebido no criarAula:', dto.name_aula); 
+     
+      const novaAula = new this.aulaModel(dto);      
+      await novaAula.save();
 
-      const novaAula = new this.aulaModel({
-        name_aula: dto.name_aula,
-        descricao_aula: dto.descricao_aula,
-      //  url_video: uploadResult.fileUrl,
-      });
-
-      const aulaSalva = await novaAula.save();
       this.logger.debug('criarAula - salvo com sucesso!');
-
-      return aulaSalva;
+      return novaAula;
     } catch (error) {
-      this.logger.error(`Error creating Aula: ${error.message}`);
+      this.logger.error(`Erro ao salvar no banco de dados: ${error.message}`);
       throw error;
     }
   }
@@ -70,16 +65,30 @@ export class AulaService {
       throw error;
     }
   }
-
   async listarTodasAulas(): Promise<AulaDocument[]> {
     try {
+        this.logger.debug('listarTodasAulas - started');
+        const todasAulas = await this.aulaModel.find().populate('modulo').exec();
+        this.logger.debug('listarTodasAulas - retrieved successfully');
+        return todasAulas;
+    } catch (error) {
+        this.logger.error(`Error retrieving Aulas: ${error.message}`);
+        throw error;
+    }
+}
+
+
+
+
+  /*async listarTodasAulas(): Promise<AulaDocument[]> {
+    try {
       this.logger.debug('listarTodasAulas - started');
-      const todasAulas = await this.aulaModel.find().exec();
+      const todasAulas = await this.aulaModel.find({}, 'name_aula descricao_aula url_video').exec();
       this.logger.debug('listarTodasAulas - retrieved successfully');
       return todasAulas;
     } catch (error) {
       this.logger.error(`Error retrieving Aulas: ${error.message}`);
       throw error;
     }
-  }
+  }*/
 }

@@ -1,8 +1,8 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Document } from 'mongoose';
 import { ModulosDto } from './dtos/modulos.dto';
-import { ModulosDocument } from './schemas/modulos.schema';
+import { ModulosDocument, Modulos } from './schemas/modulos.schema'; // Importe Modulos também
 import { UpdateModulosDto } from './dtos/updatemodulos.dto';
 import { UploadService } from '../upload/upload.service';
 
@@ -79,8 +79,9 @@ export class ModulosService {
       this.logger.error(`Erro ao excluir do banco de dados: ${error.message}`);
       throw error;
     }
-  }
-  async listarTodosModulos(): Promise<Modulos[]> {
+  } 
+
+  async listarTodosModulos(): Promise<any[]> {
     const modulos = await this.modulosModel.find().exec();
     // Para cada módulo, obtenha a URL da imagem e adicione-a aos dados do módulo
     const modulosComImagens = await Promise.all(
@@ -95,19 +96,17 @@ export class ModulosService {
   }
 }
 
-
-
-  /*async listarTodosModulos(): Promise<ModulosDocument[]> {
-    try {
-      this.logger.debug('listarTodosModulos - iniciado');
-
-      const todosModulos = await this.modulosModel.find().exec();
-
-      this.logger.debug('listarTodosModulos - recuperado com sucesso');
-      return todosModulos;
-    } catch (error) {
-      this.logger.error(`Erro ao recuperar módulos: ${error.message}`);
-      throw error;
-    }
-  }*/
-
+  /*async listarTodosModulos(): Promise<Modulos[]> { // Alteração no tipo de retorno
+    const modulos = await this.modulosModel.find().exec();
+    // Para cada módulo, obtenha a URL da imagem e adicione-a aos dados do módulo
+    const modulosComImagens = await Promise.all(
+      modulos.map(async (modulo) => {
+        // Obtenha a URL da imagem para este módulo
+        const urlImagem = await this.uploadService.obterUrl(modulo.image_modulo);
+        // Adicione a URL da imagem aos dados do módulo
+        return { ...modulo.toObject(), url_imagem: urlImagem };
+      })
+    );
+    return modulosComImagens;
+  }
+}*/

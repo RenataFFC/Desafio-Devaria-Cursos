@@ -12,12 +12,23 @@ export class AulaController {
   @Post()
   @HttpCode(HttpStatus.OK)
   @IsPublic()
+  register(@Body() dto: AulaDto ) {
+    console.log(dto)
+    return this.aulaService.criarAula(dto);
+    }
+
+    /*@Post()
+  @HttpCode(HttpStatus.OK)
+  @IsPublic()
   @UseInterceptors(FileInterceptor('video'))
   async criarAula(@Body() dto: AulaDto, @UploadedFile() videoFile: Express.Multer.File) {
 
-    dto.video = videoFile;
+    dto.video = videoFile?.filename;
     return this.aulaService.criarAula(dto);
-  }
+  }*/
+  
+
+
 
   @Put(':id') 
   async update(@Param('id') aulaId: string, @Body() dto: UpdateAulaDto) {
@@ -31,6 +42,7 @@ export class AulaController {
 
   @Get('listar')
   @HttpCode(HttpStatus.OK)
+  @IsPublic()
   async listarTodasAulas() {
     return this.aulaService.listarTodasAulas();
   }
