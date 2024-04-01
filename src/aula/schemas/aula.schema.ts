@@ -1,12 +1,10 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument, Schema as MongooseSchema } from "mongoose";
+import { Document, Types } from 'mongoose';
 import { Modulos } from "src/modulos/schemas/modulos.schema";
-
-export type AulaDocument = HydratedDocument<Aula>
 
 @Schema()
 export class Aula {
-    @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Modulos' })
+    @Prop({ type: Types.ObjectId, ref: 'Modulos' })
     modulo: Modulos;
 
     @Prop({required:true})
@@ -17,7 +15,12 @@ export class Aula {
 
     @Prop({required:true})
     url_video: string; 
+    
+    @Prop({required:true})
+    moduloId: string;
 }
+
+export type AulaDocument = Aula & Document;
 
 export const AulaSchema = SchemaFactory.createForClass(Aula);
 

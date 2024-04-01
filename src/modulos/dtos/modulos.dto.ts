@@ -8,6 +8,7 @@ export class ModulosDto {
     @IsString({ message: ModuloMessagesHelper.MODULO_IMAGEM_NOT_VALIDO })
     image_modulo: string;
 
+  
     //@IsUrl({}, { message: ModuloMessagesHelper.MODULO_IMAGEM_NOT_VALIDO })
    // @IsOptional()
    // video_modulo: string;

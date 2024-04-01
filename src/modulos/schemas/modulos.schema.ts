@@ -7,7 +7,8 @@ export type ModulosDocument = HydratedDocument<Modulos>;
 
 @Schema()
 export class Modulos { 
-  @Prop({required:true})
+
+   @Prop({required:true})
   titulo: string; 
 
   @Prop({required:true})

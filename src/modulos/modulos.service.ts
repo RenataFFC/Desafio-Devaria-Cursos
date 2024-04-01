@@ -94,8 +94,25 @@ export class ModulosService {
     );
     return modulosComImagens;
   }
-}
 
+
+  async listarAulasDoModulo(moduloId: string): Promise<any[]> {
+    const modulo = await this.modulosModel.findById(moduloId).exec();
+  
+    if (!modulo) {
+      throw new NotFoundException(`Módulo com ID ${moduloId} não encontrado`);
+    }
+  
+    // Assuming a property named 'aulas' exists on your modulo object, replace it with the actual property name if different
+    return modulo.aulas;
+  }
+} 
+
+  
+
+
+
+  
   /*async listarTodosModulos(): Promise<Modulos[]> { // Alteração no tipo de retorno
     const modulos = await this.modulosModel.find().exec();
     // Para cada módulo, obtenha a URL da imagem e adicione-a aos dados do módulo
@@ -108,5 +125,5 @@ export class ModulosService {
       })
     );
     return modulosComImagens;
-  }
-}*/
+  }*/
+

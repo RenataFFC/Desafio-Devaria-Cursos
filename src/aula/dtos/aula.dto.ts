@@ -11,5 +11,9 @@ export class AulaDto {
 
  @IsString({ message: AulaMessagesHelper.AULA_NAME_NOT_VALID})
  url_video: string;
+
+ @IsString() // Adicione esta linha para o ID do módulo
+ moduloId: string;
 }
+
 
